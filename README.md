@@ -31,5 +31,4 @@ If you want to take the time to do a PR, those are welcomed with open arms.
 
 ## Support
 
-Making money is not the goal I had in mind when starting this plugin, but it     sure helps! If you are feeling generous, you can
- [![](https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d503cc137    47866d338b_Button-2-p-1080.png)](https://ko-fi.com/joerndraws)
+Making money is not the goal I had in mind when starting this plugin, but it sure helps! If you are feeling generous, you can [![](https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d503cc13747866d338b_Button-2-p-1080.png)](https://ko-fi.com/joerndraws)
