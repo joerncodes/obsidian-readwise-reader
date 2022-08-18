@@ -1,5 +1,7 @@
 # Obsidian to Reader
 
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/joerncodes/obsidian-readwise-reader?style=for-the-badge&sort=semver)](https://github.com/joerncodes/obsidian-readwise-reader/releases/latest)
+
 ----
 
 **Important note**: This plugin is still very much **in beta**. There are still bugs I'm trying to work out, so before we go live in the Community Plugin repository, I'd be delighted if you could report any bugs you find. Thank you!
