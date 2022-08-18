@@ -31,6 +31,9 @@ The *Send to Reader* command sends the rendered HTML of the current Obsidian not
     <dd>Provide a comma separated list of tags, which will be automatically assigned to all Reader documents created with this plugin.</dd>
 </dl>
 
+## Changelog
+
+You can find the changelog at [https://obsidiantoreader.com/changelog/](https://obsidiantoreader.com/changelog/)
 ## Contributing
 
 I'm hoping to make *Obsidian to Reader* as awesome as possible, and I need your help to do it. Any issue opened here on GitHub is appreciated, whether it be a bug report or a feature request. 
