@@ -28,3 +28,8 @@ The *Send to Reader* command sends the rendered HTML of the current Obsidian not
 I'm hoping to make *Obsidian to Reader* as awesome as possible, and I need your help to do it. Any issue opened here on GitHub is appreciated, whether it be a bug report or a feature request. 
 
 If you want to take the time to do a PR, those are welcomed with open arms.
+
+## Support
+
+Making money is not the goal I had in mind when starting this plugin, but it     sure helps! If you are feeling generous, you can
+ [![](https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d503cc137    47866d338b_Button-2-p-1080.png)](https://ko-fi.com/joerndraws)
