@@ -6,6 +6,7 @@ export interface ObsidianToReaderSettings {
 	accessToken: string;
 	generalTags: [];
 	frontmatter: boolean;
+	fallbackAuthor?: string;
 }
 
 export const DEFAULT_SETTINGS: ObsidianToReaderSettings = {
@@ -95,5 +96,15 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 				});
 			});
 
+		new Setting(containerEl)
+			.setName('Fallback author')
+			.setDesc('If no author frontmatter could be found, use this value instead.')
+			.addText(text => text
+				.setPlaceholder('Your name')
+				.setValue(this.plugin.settings.fallbackAuthor)
+				.onChange(async (value) => {
+					this.plugin.settings.fallbackAuthor= value;
+					await this.plugin.saveSettings();
+				}));
 	}
 }

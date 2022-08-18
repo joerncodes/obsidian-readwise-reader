@@ -12,10 +12,10 @@ import {
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
 import {
-	FRONTMATTER_KEY, NOTICE_SAVED_SUCCEFULLY,
+	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
 	OBSIDIAN_TO_READER_REWRITE_URL, PLUGIN_NAME,
-	READER_API_URL, TEXT_SAVED_SUCCEFULLY,
+	READER_API_URL,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
 import ObsidianToReaderSettingTab, {DEFAULT_SETTINGS, ObsidianToReaderSettings} from "./src/settings";
@@ -67,16 +67,27 @@ export default class ObsidianToReadwiseReader extends Plugin {
 				const parser = new FrontmatterParser(markdown);
 
 				if(!checking) {
-					const url = parser.getFrontmatter(FRONTMATTER_KEY)?.getValue();
+					const url = parser.getFrontmatter(FRONTMATTER_KEYS.readerUrl)?.getValue();
 					window.open(url, '_null');
 				}
 
-				return parser.hasFrontmatter(FRONTMATTER_KEY);
+				return parser.hasFrontmatter(FRONTMATTER_KEYS.readerUrl);
 			}
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
 		this.addSettingTab(new ObsidianToReaderSettingTab(this.app, this));
+	}
+
+	expandPayloadWithFrontmatter(payload: ReaderPayload, parser:FrontmatterParser): ReaderPayload
+	{
+		if(parser.hasFrontmatter(FRONTMATTER_KEYS.author)) {
+			payload.author = parser.getFrontmatter(FRONTMATTER_KEYS.author)?.getValue();
+		} else if(this.settings.fallbackAuthor) {
+			payload.author = this.settings.fallbackAuthor;
+		}
+
+		return payload;
 	}
 
 	async sendToApi() {
@@ -93,6 +104,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
 			tags: this.settings.generalTags
 		};
+		payload = this.expandPayloadWithFrontmatter(payload, new FrontmatterParser(markdown))
 
 		const auth = 'Token ' + this.settings.accessToken;
 
@@ -136,7 +148,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		}
 
 		const parser = new FrontmatterParser(markdown);
-		parser.setFrontmatter(FRONTMATTER_KEY, url);
+		parser.setFrontmatter(FRONTMATTER_KEYS.readerUrl, url);
 		const result = parser.saveFrontmatter();
 
 		this.app.vault.modify(file, result);

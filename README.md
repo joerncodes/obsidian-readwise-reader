@@ -24,7 +24,7 @@ The *Send to Reader* command sends the rendered HTML of the current Obsidian not
 
 ### *Open document URL in Reader*
 
-If the `Save Reader URL in frontmatter` is set, this plugin will write the Reader document URL into your Obsidian note upon publishing. Use this command to open a new browser window with your Reader document.
+If the `Save Reader URL in frontmatter` is set, this plugin will write the Reader document URL into your Obsidian note's [YAML frontmatter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) upon publishing. Use this command to open a new browser window with your Reader document.
 
 ## Settings
 
@@ -35,7 +35,16 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
     <dd>Provide a comma separated list of tags, which will be automatically assigned to all Reader documents created with this plugin.</dd>
     <dt>Save Reader URL in frontmatter</dt>
     <dd>If checked, the plugin will write the Reader url for your published document into your Obsidian note's frontmatter.</dd>
+    <dt>Fallback author</dt>
+    <dd>Provide a string that gets used for the <code>author</code> field in Reader if no author frontmatter is present in your note.</dd>
 </dl>
+
+## Frontmatter parsing
+
+`Obsidian to Reader` recognizes the following frontmatter keys:
+
+- `author`: Gets used as the author field in your Reader note
+- `reader-url`: Gets filled automatically upon publishing if the `Save Reader URL in frontmatter` setting is active
 
 ## Changelog
 

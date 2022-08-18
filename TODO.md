@@ -6,6 +6,13 @@
 
 ## Features
 
+- [ ] Frontmatter parsing
+    - [x] Author
+        - [x] Fallback setting
+    - [ ] Summary
+        - [ ] Fallback first paragraph
+    - [ ] Cover Image
+        - [ ] Fallback banner
 - [ ] Setting: which triage to send to
 - [x] Enable rewriting to Obsidian URL scheme
 - [ ] Submit document tags to Reader
