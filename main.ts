@@ -11,7 +11,7 @@ import {
 	Setting
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
-import {READER_API_URL, TEXT_TITLE_NOT_FOUND} from "./src/constants";
+import {OBSIDIAN_TO_READER_REWRITE_URL, READER_API_URL, TEXT_TITLE_NOT_FOUND} from "./src/constants";
 
 // Remember to rename these classes and interfaces!
 
@@ -55,7 +55,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
 			html: wrapper.outerHTML,
-			url: 'https://obsidiantoreader.com',
+			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
 			tags: this.settings.generalTags
 		};
 
