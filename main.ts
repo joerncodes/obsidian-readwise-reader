@@ -12,10 +12,10 @@ import {
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
 import {
-	FRONTMATTER_KEY,
+	FRONTMATTER_KEY, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
-	OBSIDIAN_TO_READER_REWRITE_URL,
-	READER_API_URL,
+	OBSIDIAN_TO_READER_REWRITE_URL, PLUGIN_NAME,
+	READER_API_URL, TEXT_SAVED_SUCCEFULLY,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
 import ObsidianToReaderSettingTab, {DEFAULT_SETTINGS, ObsidianToReaderSettings} from "./src/settings";
@@ -34,12 +34,25 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		this.addCommand({
 			id: 'obsidian-to-reader-send',
 			name: 'Send to Reader',
-			callback: () => {
-				if(!this.settings.accessToken) {
-					new Notice(NOTICE_TEXT_NO_ACCESS_TOKEN);
-					return;
+			checkCallback: (checking: boolean) => {
+				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
+
+				if (markdownView) {
+					if(!checking) {
+						if(!this.settings.accessToken) {
+							const message = document.createDocumentFragment();
+							message.append(
+								message.createEl('h3', { text: PLUGIN_NAME}),
+								NOTICE_TEXT_NO_ACCESS_TOKEN
+							);
+							new Notice(message);
+							return true;
+						}
+						this.sendToApi();
+					}
+
+					return true;
 				}
-				this.sendToApi();
 			}
 		});
 
@@ -95,7 +108,20 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 		const response = await request(requestParameters);
 		const jsonResponse = JSON.parse(response);
-		new Notice('Saved document to ' + jsonResponse.url);
+
+		const message = document.createDocumentFragment();
+		message.append(
+			message.createEl('h3', { text: PLUGIN_NAME}),
+			message.createEl('strong', NOTICE_SAVED_SUCCEFULLY.title),
+			NOTICE_SAVED_SUCCEFULLY.message,
+			message.createEl('br'),
+			message.createEl('br'),
+			message.createEl('a', {
+				'href': jsonResponse.url,
+				'text': NOTICE_SAVED_SUCCEFULLY.linkText
+			})
+		);
+		new Notice(message);
 
 		this.saveFrontmatter(file, markdown, jsonResponse.url);
 	}
