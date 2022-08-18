@@ -22,6 +22,10 @@ If you're interested in helping to make *Obsidian to Reader* a finished product,
 
 The *Send to Reader* command sends the rendered HTML of the current Obsidian note to Reader. It will display a popup message containing the newly created (or recently updated) URL.
 
+### *Open document URL in Reader*
+
+If the `Save Reader URL in frontmatter` is set, this plugin will write the Reader document URL into your Obsidian note upon publishing. Use this command to open a new browser window with your Reader document.
+
 ## Settings
 
 <dl>
@@ -29,6 +33,8 @@ The *Send to Reader* command sends the rendered HTML of the current Obsidian not
     <dd>Your access token for Readwise. You can find yours at <a href="https://readwise.io/access_token">https://readwise.io/access_token</a>.</dd>
     <dt>General tags</dt>
     <dd>Provide a comma separated list of tags, which will be automatically assigned to all Reader documents created with this plugin.</dd>
+    <dt>Save Reader URL in frontmatter</dt>
+    <dd>If checked, the plugin will write the Reader url for your published document into your Obsidian note's frontmatter.</dd>
 </dl>
 
 ## Changelog
