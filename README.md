@@ -8,6 +8,12 @@
 
 An [Obsidian](https://obsidian.md) plugin to send notes to the [readwise.io Reader](https://read.readwise.io) service. Please note that Reader is currently in beta, so in order to use this plugin, your Readwise account must have access to this beta.
 
+## Installation
+
+As this plugin is currently in early development, you can use [BRAT](https://github.com/TfTHacker/obsidian42-brat) to install it. Use the path `joerncodes/obsidian-readwise-reader`.
+
+If you're interested in helping to make *Obsidian to Reader* a finished product, please see [Contributing](#contributing).
+
 ## Commands
 
 ### *Send to Reader*

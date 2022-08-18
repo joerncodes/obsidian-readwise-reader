@@ -11,7 +11,12 @@ import {
 	Setting
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
-import {OBSIDIAN_TO_READER_REWRITE_URL, READER_API_URL, TEXT_TITLE_NOT_FOUND} from "./src/constants";
+import {
+	NOTICE_TEXT_NO_ACCESS_TOKEN,
+	OBSIDIAN_TO_READER_REWRITE_URL,
+	READER_API_URL,
+	TEXT_TITLE_NOT_FOUND
+} from "./src/constants";
 
 // Remember to rename these classes and interfaces!
 
@@ -36,6 +41,10 @@ export default class ObsidianToReadwiseReader extends Plugin {
 			id: 'obsidian-to-readwise-reader-send',
 			name: 'Send to Reader',
 			callback: async () => {
+				if(!this.settings.accessToken) {
+					new Notice(NOTICE_TEXT_NO_ACCESS_TOKEN);
+					return;
+				}
 				await this.sendToApi();
 			}
 		});
@@ -106,9 +115,9 @@ class SampleModal extends Modal {
 }
 
 class ObsidianToReaderSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+	plugin: ObsidianToReadwiseReader;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: ObsidianToReadwiseReader) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
