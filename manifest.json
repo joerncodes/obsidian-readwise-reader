@@ -1,7 +1,7 @@
 {
 	"id": "obsidian-readwise-reader",
 	"name": "Obsidian to Reader",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"minAppVersion": "0.15.0",
 	"description": "Obsidian to Reader is a plugin to publish Obsidian documents to the new Reader service of readwise.io for later reading. Please note that Readwise Reader is currently in beta.",
 	"author": "Obsidian",
