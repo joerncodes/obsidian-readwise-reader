@@ -13,5 +13,6 @@ export const FRONTMATTER_KEYS = {
 	author: 'author',
 	banner: 'banner',
 	imageUrl: 'image-url',
-	summary: 'summary'
+	summary: 'summary',
+	tags: 'tags',
 };
