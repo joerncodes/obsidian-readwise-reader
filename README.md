@@ -44,6 +44,7 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
 `Obsidian to Reader` recognizes the following frontmatter keys:
 
 - `author`: Gets used as the author field in your Reader note
+- `image-url` and `banner`: Both fields get parsed as an image to send to use as the cover image for your Reader document. If both are present, `image-url` supercedes `banner`.[^1]
 - `reader-url`: Gets filled automatically upon publishing if the `Save Reader URL in frontmatter` setting is active
 
 ## Changelog
@@ -68,3 +69,9 @@ npm test
 ## Support
 
 Making money is not the goal I had in mind when starting this plugin, but it sure helps! If you are feeling generous, you can [![](https://uploads-ssl.webflow.com/5c14e387dab576fe667689cf/61e11d503cc13747866d338b_Button-2-p-1080.png)](https://ko-fi.com/joerndraws)
+
+-----
+
+#### Footnotes 
+
+[^1]: The reason for this fallback is the excellent [Obsidian Banners](https://github.com/noatpad/obsidian-banners) plugin.

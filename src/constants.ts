@@ -11,4 +11,6 @@ export const NOTICE_TEXT_NO_ACCESS_TOKEN = 'No access token was found. Please se
 export const FRONTMATTER_KEYS = {
 	readerUrl: 'reader-url',
 	author: 'author',
+	banner: 'banner',
+	imageUrl: 'image-url',
 };

@@ -5,6 +5,7 @@ interface ReaderPayload {
 	author?: string;
 	should_clean_html?: boolean;
 	tags?: [];
+	image_url?: string;
 }
 
 export default ReaderPayload;
