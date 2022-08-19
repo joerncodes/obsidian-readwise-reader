@@ -3,6 +3,7 @@ import ReaderPayload from "../readerpayload";
 import PayloadExpanderInterface from "./payloadexpanderinterface";
 import AuthorPayloadExpander from "./authorpayloadexpander";
 import ImageUrlPayloadExpander from "./imageurlpayloadexpander";
+import SummaryPayloadExpander from "./summarypayloadexpander";
 
 export default class PayloadExpander implements PayloadExpanderInterface {
 	private expanders:PayloadExpanderInterface[] = [];
@@ -10,6 +11,7 @@ export default class PayloadExpander implements PayloadExpanderInterface {
 	constructor() {
 		this.expanders.push(new AuthorPayloadExpander());
 		this.expanders.push(new ImageUrlPayloadExpander());
+		this.expanders.push(new SummaryPayloadExpander());
 	}
 
 

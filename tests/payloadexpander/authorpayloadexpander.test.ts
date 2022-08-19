@@ -34,7 +34,7 @@ no-author: at all
 	settings.fallbackAuthor = 'Terry Pratchett';
 	payload = expander.expandPayload(settings, payload, markdown);
 
-	expect(payload.author).toBe('Terry Pratchett');
+	expect(payload.author).toEqual('Terry Pratchett');
 });
 
 test('Frontmatter author overwrites settings author.', () => {
@@ -46,5 +46,5 @@ author: Douglas Adams
 	settings.fallbackAuthor = 'Terry Pratchett';
 	payload = expander.expandPayload(settings, payload, markdown);
 
-	expect(payload.author).toBe('Douglas Adams');
+	expect(payload.author).toEqual('Douglas Adams');
 });
