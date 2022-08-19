@@ -4,7 +4,11 @@
 - [x] Refactor settings into separate class
 - [x] Check callbacks for commands
 
-## Features
+## 🐛 Bugs
+
+- [ ] Pushing an article twice creates two articles?
+
+## ✨ Features
 
 - [ ] Frontmatter parsing
     - [x] Author

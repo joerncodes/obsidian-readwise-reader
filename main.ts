@@ -21,6 +21,7 @@ import {
 import ObsidianToReaderSettingTab, {DEFAULT_SETTINGS, ObsidianToReaderSettings} from "./src/settings";
 import FrontmatterParser from "./src/frontmatterparser";
 import {EditorView} from "@codemirror/view";
+import PayloadExpander from "./src/payloadexpander/payloadexpander";
 
 // Remember to rename these classes and interfaces!
 
@@ -79,17 +80,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		this.addSettingTab(new ObsidianToReaderSettingTab(this.app, this));
 	}
 
-	expandPayloadWithFrontmatter(payload: ReaderPayload, parser:FrontmatterParser): ReaderPayload
-	{
-		if(parser.hasFrontmatter(FRONTMATTER_KEYS.author)) {
-			payload.author = parser.getFrontmatter(FRONTMATTER_KEYS.author)?.getValue();
-		} else if(this.settings.fallbackAuthor) {
-			payload.author = this.settings.fallbackAuthor;
-		}
-
-		return payload;
-	}
-
 	async sendToApi() {
 		const file = this.app.workspace.getActiveFile();
 		const metadata = this.app.metadataCache.getFileCache(file);
@@ -104,7 +94,9 @@ export default class ObsidianToReadwiseReader extends Plugin {
 			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
 			tags: this.settings.generalTags
 		};
-		payload = this.expandPayloadWithFrontmatter(payload, new FrontmatterParser(markdown))
+
+		const payloadExpander = new PayloadExpander();
+		payload = payloadExpander.expandPayload(this.settings, payload, markdown);
 
 		const auth = 'Token ' + this.settings.accessToken;
 

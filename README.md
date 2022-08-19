@@ -49,11 +49,21 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
 ## Changelog
 
 You can find the changelog at [https://obsidiantoreader.com/changelog/](https://obsidiantoreader.com/changelog/)
+
 ## Contributing
 
 I'm hoping to make *Obsidian to Reader* as awesome as possible, and I need your help to do it. Any issue opened here on GitHub is appreciated, whether it be a bug report or a feature request. 
 
 If you want to take the time to do a PR, those are welcomed with open arms.
+
+
+## Testing
+
+Tests are written in [Jest](https://jestjs.io) and currently don't have great coverage yet. You can run the tests by executing:
+
+```bash
+npm test
+```
 
 ## Support
 
