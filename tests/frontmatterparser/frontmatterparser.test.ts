@@ -50,3 +50,48 @@ summary: A short text
 # More Markdown
 `);
 });
+
+test('Parser reads arrays correctly', () => {
+	const markdown = `---
+tags: [one, two]
+---
+# More Markdown
+`;
+	const parser = new FrontmatterParser(markdown);
+	const tags = ['one', 'two'];
+	const actual = parser.getFrontmatter('tags')?.getValue();
+
+	expect(Array.isArray(actual)).toBe(true);
+	expect(actual.length).toEqual(2);
+	expect(actual[1]).toEqual('two');
+});
+
+test('Parser reads empty arrays correctly', () => {
+	const markdown = `---
+tags: [ ]
+---
+# More Markdown
+`;
+	const parser = new FrontmatterParser(markdown);
+	const tags = ['one', 'two'];
+	const actual = parser.getFrontmatter('tags')?.getValue();
+
+	expect(Array.isArray(actual)).toBe(true);
+	expect(actual.length).toEqual(0);
+});
+
+test('Parser sets frontmatter arrays', () => {
+	const markdown = `---
+title: A Title
+---
+# More Markdown
+`;
+	const parser = new FrontmatterParser(markdown);
+	parser.setFrontmatter('tags', ['one', 'two']);
+	expect(parser.saveFrontmatter()).toEqual(`---
+title: A Title
+tags: [one, two]
+---
+# More Markdown
+`);
+});

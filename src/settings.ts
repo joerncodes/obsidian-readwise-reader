@@ -8,6 +8,7 @@ export interface ObsidianToReaderSettings {
 	frontmatter: boolean;
 	omitFrontmatter: boolean;
 	fallbackAuthor?: string;
+	noteTags: boolean;
 }
 
 export const DEFAULT_SETTINGS: ObsidianToReaderSettings = {
@@ -15,6 +16,7 @@ export const DEFAULT_SETTINGS: ObsidianToReaderSettings = {
 	generalTags: [],
 	frontmatter: false,
 	omitFrontmatter: true,
+	noteTags: false,
 }
 
 
@@ -118,6 +120,17 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 					this.plugin.settings.omitFrontmatter = v;
 					await this.plugin.saveSettings();
 				})
-			})
+			});
+
+		new Setting(containerEl)
+			.setName('Submit note tags')
+			.setDesc('If this is checked, the tags from your Obsidian note will get submitted as Reader tags.')
+			.addToggle((t) => {
+				t.setValue(this.plugin.settings.noteTags);
+				t.onChange(async(v) => {
+					this.plugin.settings.noteTags = v;
+					await this.plugin.saveSettings();
+				})
+			});
 	}
 }
