@@ -13,6 +13,7 @@ let settings:ObsidianToReaderSettings = {
 	generalTags: [],
 	frontmatter: true,
 	omitFrontmatter: false,
+	noteTags: false
 };
 
 test('If no author is present in either frontmatter or settings, no author gets set.', () => {

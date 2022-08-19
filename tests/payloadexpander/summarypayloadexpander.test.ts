@@ -13,6 +13,7 @@ let settings:ObsidianToReaderSettings = {
 	generalTags: [],
 	frontmatter: true,
 	omitFrontmatter: false,
+	noteTags: false
 };
 
 test('If no frontmatter tag is present, no summary gets written into the payload', () => {

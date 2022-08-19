@@ -4,7 +4,7 @@ interface ReaderPayload {
 	url: string;
 	author?: string;
 	should_clean_html?: boolean;
-	tags?: [];
+	tags?: string[];
 	image_url?: string;
 	summary?: string;
 }

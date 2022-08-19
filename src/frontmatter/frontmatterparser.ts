@@ -16,13 +16,35 @@ export default class FrontmatterParser
 			return;
 		}
 
-
 		rawFrontmatter.split("\n").forEach(line => {
 			let parts = line.split(':').map(v => v.trim());
 			const key = parts[0].toString();
 			const value = parts.slice(1).join(':');
-			this.frontmatter.push(new FrontmatterEntry(key, value));
+			this.frontmatter.push(this.createEntry(key, value));
 		});
+	}
+
+	createEntry(key:string, value:string): FrontmatterEntry {
+		return new FrontmatterEntry(key, this.parseValue(value));
+	}
+
+	private parseValue(value: any): any {
+		if(Array.isArray(value)) {
+			return value;
+		}
+
+		let parsedValue:any = value;
+
+		if(value.trim().startsWith('[') && value.trim().endsWith(']')) {
+			value = value.slice(1,-1);
+			value = value.replace(/\s/g,'');
+
+			parsedValue = value
+				? value.split(',')
+				: [];
+		}
+
+		return parsedValue;
 	}
 
 	stripFrontmatter(): string {
@@ -69,7 +91,7 @@ export default class FrontmatterParser
 		});
 
 		if (!found) {
-			this.frontmatter.push(new FrontmatterEntry(key, value));
+			this.frontmatter.push(this.createEntry(key, value));
 		}
 
 		return this;
@@ -79,7 +101,9 @@ export default class FrontmatterParser
 	{
 		let result = '---\n';
 		this.frontmatter.forEach(fm => {
-			result += fm.getKey() + ': ' + fm.getValue() + '\n';
+			result += Array.isArray(fm.getValue())
+				? fm.getKey() + ': [' + fm.getValue().join(', ') + ']\n'
+				: fm.getKey() + ': ' + fm.getValue() + '\n';
 		});
 
 		// no frontmatter yet

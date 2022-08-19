@@ -19,8 +19,8 @@
         - [x] Fallback banner
 - [ ] Setting: which triage to send to
 - [x] Enable rewriting to Obsidian URL scheme
-- [ ] Submit document tags to Reader
-    - [ ] Make toggleable in settings
+- [x] Submit document tags to Reader
+    - [x] Make toggleable in settings
 - [x] Add setting to *always* submit tags
 - [x] Write Reader url in frontmatter
-- [ ] Setting: purge frontmatter before publishing
+- [x] Setting: purge frontmatter before publishing
