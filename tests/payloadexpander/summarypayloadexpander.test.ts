@@ -1,6 +1,7 @@
 import ReaderPayload from "../../src/readerpayload";
-import {ObsidianToReaderSettings} from "../../src/settings";
 import SummaryPayloadExpander from "../../src/payloadexpander/summarypayloadexpander";
+import ObsidianToReaderSettingsInterface from "../../src/settings/obsidiantoreadersettingsinterface";
+import {DEFAULT_SETTINGS} from "../../src/constants";
 
 const expander = new SummaryPayloadExpander();
 let payload:ReaderPayload = {
@@ -8,13 +9,8 @@ let payload:ReaderPayload = {
 	html: '<h1>A test</h1>',
 	url: 'https://obsidiantoreader.com'
 };
-let settings:ObsidianToReaderSettings = {
-	accessToken: '',
-	generalTags: [],
-	frontmatter: true,
-	omitFrontmatter: false,
-	noteTags: false
-};
+
+let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('If no frontmatter tag is present, no summary gets written into the payload', () => {
 	const markdown = `---

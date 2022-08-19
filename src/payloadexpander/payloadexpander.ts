@@ -1,4 +1,4 @@
-import {ObsidianToReaderSettings} from "../settings";
+import {ObsidianToReaderSettings} from "../settings/settings";
 import ReaderPayload from "../readerpayload";
 import PayloadExpanderInterface from "./payloadexpanderinterface";
 import AuthorPayloadExpander from "./authorpayloadexpander";
