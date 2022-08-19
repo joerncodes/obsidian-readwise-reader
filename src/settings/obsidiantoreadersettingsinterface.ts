@@ -4,4 +4,5 @@ export default interface ObsidianToReaderSettingsInterface {
 	frontmatter: boolean;
 	omitFrontmatter: boolean;
 	fallbackAuthor?: string;
+	noteTags: boolean;
 }

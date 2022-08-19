@@ -1,5 +1,5 @@
 import {
-	App,
+	App, CachedMetadata,
 	Editor, FileView,
 	MarkdownRenderer,
 	MarkdownView,
@@ -95,15 +95,18 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
+		const tags = this.gatherTags(originalMarkdown, metadata);
+
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
 			html: wrapper.outerHTML,
 			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
-			tags: this.settings.generalTags
+			tags: tags
 		};
 
 		const payloadExpander = new PayloadExpander();
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
+
 		console.log(payload);
 
 		const auth = 'Token ' + this.settings.accessToken;
@@ -136,6 +139,24 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		new Notice(message);
 
 		this.saveFrontmatter(file, originalMarkdown, jsonResponse.url);
+	}
+
+	gatherTags(markdown:string, metadata:CachedMetadata): string[] {
+		let tags = [];
+		tags = tags.concat(this.settings.generalTags);
+
+		console.log(this.settings);
+		if(this.settings.noteTags) {
+			const parser = new FrontmatterParser(markdown);
+			if(parser.hasFrontmatter(FRONTMATTER_KEYS.tags)) {
+				tags = tags.concat(parser.getFrontmatter(FRONTMATTER_KEYS.tags)?.getValue() || []);
+			}
+
+			// Omit the #
+			tags = tags.concat(metadata.tags?.map((t) => t.tag.substring(1)));
+		}
+
+		return tags;
 	}
 
 	onunload() {

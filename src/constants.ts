@@ -15,7 +15,8 @@ export const FRONTMATTER_KEYS = {
 	author: 'author',
 	banner: 'banner',
 	imageUrl: 'image-url',
-	summary: 'summary'
+	summary: 'summary',
+	tags: 'tags',
 };
 
 export const DEFAULT_SETTINGS: ObsidianToReaderSettingsInterface = {
@@ -23,5 +24,6 @@ export const DEFAULT_SETTINGS: ObsidianToReaderSettingsInterface = {
 	generalTags: [],
 	frontmatter: false,
 	omitFrontmatter: true,
+	noteTags: false,
 }
 
