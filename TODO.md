@@ -6,17 +6,17 @@
 
 ## 🐛 Bugs
 
-- [ ] Pushing an article twice creates two articles?
+- [x] Pushing an article twice creates two articles?
 
 ## ✨ Features
 
 - [ ] Frontmatter parsing
     - [x] Author
         - [x] Fallback setting
-    - [ ] Summary
-        - [ ] Fallback first paragraph
-    - [ ] Cover Image
-        - [ ] Fallback banner
+    - [x] Summary
+        - [x] Fallback first paragraph
+    - [x] Cover Image
+        - [x] Fallback banner
 - [ ] Setting: which triage to send to
 - [x] Enable rewriting to Obsidian URL scheme
 - [ ] Submit document tags to Reader

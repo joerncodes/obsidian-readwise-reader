@@ -1,7 +1,7 @@
 import PayloadExpanderInterface from "./payloadexpanderinterface";
 import {ObsidianToReaderSettings} from "../settings";
 import ReaderPayload from "../readerpayload";
-import FrontmatterParser from "../frontmatterparser";
+import FrontmatterParser from "../frontmatter/frontmatterparser";
 import {FRONTMATTER_KEYS} from "../constants";
 
 export default class SummaryPayloadExpander implements PayloadExpanderInterface {

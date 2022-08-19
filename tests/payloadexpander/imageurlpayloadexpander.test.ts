@@ -12,6 +12,7 @@ let settings:ObsidianToReaderSettings = {
 	accessToken: '',
 	generalTags: [],
 	frontmatter: true,
+	omitFrontmatter: false,
 };
 
 test('If no frontmatter tag is present, no image_url gets written into the payload', () => {

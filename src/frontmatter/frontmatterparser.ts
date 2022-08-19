@@ -25,6 +25,18 @@ export default class FrontmatterParser
 		});
 	}
 
+	stripFrontmatter(): string {
+		if(this.content.indexOf('---') === - 1) {
+			return this.content.trim();
+		}
+
+		const startInd = this.content.indexOf('---') + 4;
+		const endInd = this.content.substring(startInd).indexOf('---') + 4;
+
+		return this.content.substring(endInd + 4).trim();
+		return this.content.substring(this.content.lastIndexOf('---')).trim();
+	}
+
 	hasFrontmatter(key: string): boolean {
 		let found = false;
 		this.frontmatter.forEach(fm => {

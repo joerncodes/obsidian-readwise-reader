@@ -6,13 +6,15 @@ export interface ObsidianToReaderSettings {
 	accessToken: string;
 	generalTags: [];
 	frontmatter: boolean;
+	omitFrontmatter: boolean;
 	fallbackAuthor?: string;
 }
 
 export const DEFAULT_SETTINGS: ObsidianToReaderSettings = {
 	accessToken: '',
 	generalTags: [],
-	frontmatter: false
+	frontmatter: false,
+	omitFrontmatter: true,
 }
 
 
@@ -106,5 +108,16 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 					this.plugin.settings.fallbackAuthor= value;
 					await this.plugin.saveSettings();
 				}));
+
+		new Setting(containerEl)
+			.setName('Omit frontmatter')
+			.setDesc('If this is checked, your Obsidian note\'s frontmatter gets ommited when submitting to Reader. Special keys like author will still get parsed.')
+			.addToggle((t) => {
+				t.setValue(this.plugin.settings.omitFrontmatter);
+				t.onChange(async(v) => {
+					this.plugin.settings.omitFrontmatter = v;
+					await this.plugin.saveSettings();
+				})
+			})
 	}
 }

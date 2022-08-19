@@ -37,6 +37,8 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
     <dd>If checked, the plugin will write the Reader url for your published document into your Obsidian note's frontmatter.</dd>
     <dt>Fallback author</dt>
     <dd>Provide a string that gets used for the <code>author</code> field in Reader if no author frontmatter is present in your note.</dd>
+    <dt>Omit frontmatter</dt>
+    <dd>If this is checked, only the note's body will be sent to Reader, without the frontmatter. Defaults to <code>true</code>.</code>
 </dl>
 
 ## Frontmatter parsing

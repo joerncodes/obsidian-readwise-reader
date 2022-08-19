@@ -19,7 +19,7 @@ import {
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
 import ObsidianToReaderSettingTab, {DEFAULT_SETTINGS, ObsidianToReaderSettings} from "./src/settings";
-import FrontmatterParser from "./src/frontmatterparser";
+import FrontmatterParser from "./src/frontmatter/frontmatterparser";
 import {EditorView} from "@codemirror/view";
 import PayloadExpander from "./src/payloadexpander/payloadexpander";
 
@@ -83,8 +83,13 @@ export default class ObsidianToReadwiseReader extends Plugin {
 	async sendToApi() {
 		const file = this.app.workspace.getActiveFile();
 		const metadata = this.app.metadataCache.getFileCache(file);
-		const markdown = await this.app.vault.read(file);
+		const originalMarkdown = await this.app.vault.read(file);
 		const wrapper = document.body.createDiv();
+
+		let markdown = originalMarkdown;
+		if(this.settings.omitFrontmatter) {
+			markdown = (new FrontmatterParser(markdown)).stripFrontmatter();
+		}
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
@@ -96,7 +101,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		};
 
 		const payloadExpander = new PayloadExpander();
-		payload = payloadExpander.expandPayload(this.settings, payload, markdown);
+		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
 		console.log(payload);
 
 		const auth = 'Token ' + this.settings.accessToken;
@@ -128,7 +133,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		);
 		new Notice(message);
 
-		this.saveFrontmatter(file, markdown, jsonResponse.url);
+		this.saveFrontmatter(file, originalMarkdown, jsonResponse.url);
 	}
 
 	onunload() {
