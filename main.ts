@@ -24,6 +24,7 @@ import {EditorView} from "@codemirror/view";
 import PayloadExpander from "./src/payloadexpander/payloadexpander";
 import ObsidianToReaderSettingsInterface from "./src/settings/obsidiantoreadersettingsinterface";
 import ObsidianToReaderSettingsTab from "./src/settings/obsidiantoreadersettingstab";
+import TagCollector from "./src/tagcollector";
 
 // Remember to rename these classes and interfaces!
 
@@ -95,7 +96,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
-		const tags = this.gatherTags(originalMarkdown, metadata);
+		const tags = (new TagCollector(originalMarkdown, metadata, this.settings)).gatherTags();
 
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
@@ -139,24 +140,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		new Notice(message);
 
 		this.saveFrontmatter(file, originalMarkdown, jsonResponse.url);
-	}
-
-	gatherTags(markdown:string, metadata:CachedMetadata): string[] {
-		let tags = [];
-		tags = tags.concat(this.settings.generalTags);
-
-		console.log(this.settings);
-		if(this.settings.noteTags) {
-			const parser = new FrontmatterParser(markdown);
-			if(parser.hasFrontmatter(FRONTMATTER_KEYS.tags)) {
-				tags = tags.concat(parser.getFrontmatter(FRONTMATTER_KEYS.tags)?.getValue() || []);
-			}
-
-			// Omit the #
-			tags = tags.concat(metadata.tags?.map((t) => t.tag.substring(1)));
-		}
-
-		return tags;
 	}
 
 	onunload() {
