@@ -1,24 +1,8 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
-import ObsidianToReadwiseReader from "../main";
+import ObsidianToReadwiseReader from "../../main";
+import ObsidianToReaderSettingsInterface from "./obsidiantoreadersettingsinterface";
 
-
-export interface ObsidianToReaderSettings {
-	accessToken: string;
-	generalTags: [];
-	frontmatter: boolean;
-	omitFrontmatter: boolean;
-	fallbackAuthor?: string;
-}
-
-export const DEFAULT_SETTINGS: ObsidianToReaderSettings = {
-	accessToken: '',
-	generalTags: [],
-	frontmatter: false,
-	omitFrontmatter: true,
-}
-
-
-export default class ObsidianToReaderSettingTab extends PluginSettingTab {
+export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 	plugin: ObsidianToReadwiseReader;
 
 	constructor(app: App, plugin: ObsidianToReadwiseReader) {
@@ -74,9 +58,9 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 			.setDesc(desc)
 			.addText(text => text
 				.setPlaceholder('obsidian, plugin')
-				.setValue(this.plugin.settings.generalTags.join(', ') || null)
+				.setValue(this.plugin.settings.generalTags.join(', ') || '')
 				.onChange(async (value) => {
-					let tags = [];
+					let tags:string[] = [];
 
 					if(value.length) {
 						tags = tags.concat(value.split(','));
@@ -103,7 +87,7 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 			.setDesc('If no author frontmatter could be found, use this value instead.')
 			.addText(text => text
 				.setPlaceholder('Your name')
-				.setValue(this.plugin.settings.fallbackAuthor)
+				.setValue(this.plugin.settings.fallbackAuthor || '')
 				.onChange(async (value) => {
 					this.plugin.settings.fallbackAuthor= value;
 					await this.plugin.saveSettings();
@@ -118,6 +102,17 @@ export default class ObsidianToReaderSettingTab extends PluginSettingTab {
 					this.plugin.settings.omitFrontmatter = v;
 					await this.plugin.saveSettings();
 				})
-			})
+			});
+
+		new Setting(containerEl)
+			.setName('Submit note tags')
+			.setDesc('If this is checked, the tags from your Obsidian note will get submitted as Reader tags.')
+			.addToggle((t) => {
+				t.setValue(this.plugin.settings.noteTags);
+				t.onChange(async(v) => {
+					this.plugin.settings.noteTags = v;
+					await this.plugin.saveSettings();
+				})
+			});
 	}
 }

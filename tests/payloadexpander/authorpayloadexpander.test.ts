@@ -1,6 +1,7 @@
 import AuthorPayloadExpander from "../../src/payloadexpander/authorpayloadexpander";
 import ReaderPayload from "../../src/readerpayload";
-import {ObsidianToReaderSettings} from "../../src/settings";
+import ObsidianToReaderSettingsInterface from "../../src/settings/obsidiantoreadersettingsinterface";
+import {DEFAULT_SETTINGS} from "../../src/constants";
 
 const expander = new AuthorPayloadExpander();
 let payload:ReaderPayload = {
@@ -8,12 +9,7 @@ let payload:ReaderPayload = {
 	html: '<h1>A test</h1>',
 	url: 'https://obsidiantoreader.com'
 };
-let settings:ObsidianToReaderSettings = {
-	accessToken: '',
-	generalTags: [],
-	frontmatter: true,
-	omitFrontmatter: false,
-};
+let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('If no author is present in either frontmatter or settings, no author gets set.', () => {
 	const markdown = `---

@@ -1,5 +1,5 @@
 import {
-	App,
+	App, CachedMetadata,
 	Editor, FileView,
 	MarkdownRenderer,
 	MarkdownView,
@@ -12,21 +12,24 @@ import {
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
 import {
+	DEFAULT_SETTINGS,
 	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
 	OBSIDIAN_TO_READER_REWRITE_URL, PLUGIN_NAME,
 	READER_API_URL,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
-import ObsidianToReaderSettingTab, {DEFAULT_SETTINGS, ObsidianToReaderSettings} from "./src/settings";
 import FrontmatterParser from "./src/frontmatter/frontmatterparser";
 import {EditorView} from "@codemirror/view";
 import PayloadExpander from "./src/payloadexpander/payloadexpander";
+import ObsidianToReaderSettingsInterface from "./src/settings/obsidiantoreadersettingsinterface";
+import ObsidianToReaderSettingsTab from "./src/settings/obsidiantoreadersettingstab";
+import TagCollector from "./src/tagcollector";
 
 // Remember to rename these classes and interfaces!
 
 export default class ObsidianToReadwiseReader extends Plugin {
-	settings: ObsidianToReaderSettings;
+	settings: ObsidianToReaderSettingsInterface;
 
 	async onload() {
 		await this.loadSettings();
@@ -77,7 +80,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		});
 
 		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new ObsidianToReaderSettingTab(this.app, this));
+		this.addSettingTab(new ObsidianToReaderSettingsTab(this.app, this));
 	}
 
 	async sendToApi() {
@@ -93,16 +96,17 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
+		const tags = (new TagCollector(originalMarkdown, metadata, this.settings)).gatherTags();
+
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
 			html: wrapper.outerHTML,
 			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
-			tags: this.settings.generalTags
+			tags: tags
 		};
 
 		const payloadExpander = new PayloadExpander();
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
-		console.log(payload);
 
 		const auth = 'Token ' + this.settings.accessToken;
 
