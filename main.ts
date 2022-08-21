@@ -108,8 +108,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		const payloadExpander = new PayloadExpander();
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
 
-		console.log(payload);
-
 		const auth = 'Token ' + this.settings.accessToken;
 
 		const requestParameters:RequestUrlParam = {
