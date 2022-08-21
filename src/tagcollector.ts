@@ -1,4 +1,4 @@
-import {CachedMetadata} from "obsidian";
+import {CachedMetadata, TagCache} from "obsidian";
 import FrontmatterParser from "./frontmatter/frontmatterparser";
 import {FRONTMATTER_KEYS} from "./constants";
 import ObsidianToReaderSettingsInterface from "./settings/obsidiantoreadersettingsinterface";
@@ -26,9 +26,14 @@ export default class TagCollector
 			}
 
 			// Omit the #
-			tags = this.metadata.tags !== undefined
-				? tags.concat(this.metadata.tags?.map((t) => t.tag.substring(1)))
-				: tags;
+			if(this.metadata.tags !== undefined) {
+				const metadataTags = this.metadata.tags.map((t:TagCache) => {
+					return t.tag.startsWith('#')
+						? t.tag.substring(1)
+						: t.tag;
+				});
+				tags = tags.concat(metadataTags);
+			}
 		}
 
 		return tags;
