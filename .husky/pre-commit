@@ -3,4 +3,3 @@
 
 npm test
 eslint main.ts src/** tests/** --fix
-eslint main.ts src/** tests/** --fix
