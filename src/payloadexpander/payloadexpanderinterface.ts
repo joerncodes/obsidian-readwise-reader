@@ -1,4 +1,3 @@
-import {ObsidianToReaderSettings} from "../settings/settings";
 import ReaderPayload from "../readerpayload";
 import ObsidianToReaderSettingsInterface from "../settings/obsidiantoreadersettingsinterface";
 
