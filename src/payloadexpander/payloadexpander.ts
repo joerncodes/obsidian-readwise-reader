@@ -4,6 +4,7 @@ import PayloadExpanderInterface from "./payloadexpanderinterface";
 import AuthorPayloadExpander from "./authorpayloadexpander";
 import ImageUrlPayloadExpander from "./imageurlpayloadexpander";
 import SummaryPayloadExpander from "./summarypayloadexpander";
+import TriageStatusPayloadExpander from "./triagestatuspayloadexpander";
 
 export default class PayloadExpander implements PayloadExpanderInterface {
 	private expanders:PayloadExpanderInterface[] = [];
@@ -12,6 +13,7 @@ export default class PayloadExpander implements PayloadExpanderInterface {
 		this.expanders.push(new AuthorPayloadExpander());
 		this.expanders.push(new ImageUrlPayloadExpander());
 		this.expanders.push(new SummaryPayloadExpander());
+		this.expanders.push(new TriageStatusPayloadExpander());
 	}
 
 

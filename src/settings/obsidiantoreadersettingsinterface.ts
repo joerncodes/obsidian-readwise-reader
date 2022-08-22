@@ -5,4 +5,5 @@ export default interface ObsidianToReaderSettingsInterface {
 	omitFrontmatter: boolean;
 	fallbackAuthor?: string;
 	noteTags: boolean;
+	triageStatus: string;
 }
