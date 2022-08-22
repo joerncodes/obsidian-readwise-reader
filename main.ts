@@ -1,14 +1,11 @@
 import {
-	App, CachedMetadata,
-	Editor, FileView,
+	FileView,
 	MarkdownRenderer,
 	MarkdownView,
-	Modal,
 	Notice,
 	Plugin,
-	PluginSettingTab, request,
-	requestUrl, RequestUrlParam,
-	Setting, TFile
+	RequestUrlParam,
+	TFile
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
 import {
@@ -20,7 +17,6 @@ import {
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
 import FrontmatterParser from "./src/frontmatter/frontmatterparser";
-import {EditorView} from "@codemirror/view";
 import PayloadExpander from "./src/payloadexpander/payloadexpander";
 import ObsidianToReaderSettingsInterface from "./src/settings/obsidiantoreadersettingsinterface";
 import ObsidianToReaderSettingsTab from "./src/settings/obsidiantoreadersettingstab";
@@ -140,10 +136,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		this.saveFrontmatter(file, originalMarkdown, jsonResponse.url);
 	}
 
-	onunload() {
-
-	}
-
 	saveFrontmatter(file:TFile, markdown:string, url:string) {
 		if(!this.settings.frontmatter) {
 			return;
@@ -162,22 +154,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
 	}
 }
 

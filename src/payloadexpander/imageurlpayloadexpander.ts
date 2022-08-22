@@ -3,6 +3,7 @@ import ReaderPayload from "../readerpayload";
 import FrontmatterParser from "../frontmatter/frontmatterparser";
 import {FRONTMATTER_KEYS} from "../constants";
 import ObsidianToReaderSettingsInterface from "../settings/obsidiantoreadersettingsinterface";
+import StringFrontmatterEntry from "../frontmatter/stringfrontmatterentry";
 
 export default class ImageUrlPayloadExpander implements PayloadExpanderInterface
 {
@@ -10,10 +11,12 @@ export default class ImageUrlPayloadExpander implements PayloadExpanderInterface
 		const parser = new FrontmatterParser(markdown);
 
 		if(parser.hasFrontmatter(FRONTMATTER_KEYS.imageUrl)) {
-			payload.image_url = parser.getFrontmatter(FRONTMATTER_KEYS.imageUrl)?.getValue();
+			const fm = parser.getFrontmatter(FRONTMATTER_KEYS.imageUrl) as StringFrontmatterEntry;
+			payload.image_url = fm.getValue();
 		}
 		else if(parser.hasFrontmatter(FRONTMATTER_KEYS.banner)) {
-			payload.image_url = parser.getFrontmatter(FRONTMATTER_KEYS.banner)?.getValue();
+			const fm = parser.getFrontmatter(FRONTMATTER_KEYS.banner) as StringFrontmatterEntry;
+			payload.image_url = fm.getValue();
 		}
 		return payload;
 	}

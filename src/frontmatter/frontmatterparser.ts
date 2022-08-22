@@ -34,12 +34,12 @@ export default class FrontmatterParser
 			: new StringFrontmatterEntry(key, parsedValue);
 	}
 
-	private parseValue(value: any): any {
+	private parseValue(value: string|string[]): string|string[] {
 		if(Array.isArray(value)) {
 			return value;
 		}
 
-		let parsedValue:any = value;
+		let parsedValue:string|string[] = value;
 
 		if(value.trim().startsWith('[') && value.trim().endsWith(']')) {
 			value = value.slice(1,-1);
@@ -91,7 +91,7 @@ export default class FrontmatterParser
 		return result;
 	}
 
-	setFrontmatter(key: string, value: any): FrontmatterParser {
+	setFrontmatter(key: string, value: string|string[]): FrontmatterParser {
 		let found = false;
 		this.frontmatter.forEach(fm => {
 			if(fm.getKey() == key) {
@@ -101,7 +101,7 @@ export default class FrontmatterParser
 		});
 
 		if (!found) {
-			this.frontmatter.push(this.createEntry(key, value));
+			this.frontmatter.push(this.createEntry(key, value as string));
 		}
 
 		return this;
@@ -111,9 +111,11 @@ export default class FrontmatterParser
 	{
 		let result = '---\n';
 		this.frontmatter.forEach(fm => {
-			result += Array.isArray(fm.getValue())
-				? fm.getKey() + ': [' + fm.getValue().join(', ') + ']\n'
-				: fm.getKey() + ': ' + fm.getValue() + '\n';
+			if(fm instanceof StringArrayFrontmatterEntry) {
+				result += fm.getKey() + ': [' + fm.getValue().join(', ') + ']\n';
+			} else {
+				result += fm.getKey() + ': ' + fm.getValue() + '\n';
+			}
 		});
 
 		// no frontmatter yet

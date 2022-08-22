@@ -1,9 +1,9 @@
 export abstract class AbstractFrontmatterEntry
 {
 	protected key: string;
-	protected value: any;
+	protected value: string|string[];
 
-	constructor(key: string, value: any)
+	constructor(key: string, value: string|string[])
 	{
 		this.key = key;
 		this.value = value;
@@ -14,12 +14,12 @@ export abstract class AbstractFrontmatterEntry
 		return this.key;
 	}
 
-	public getValue(): any
+	public getValue(): string|string[]
 	{
 		return this.value;
 	}
 
-	public setValue(value: any): AbstractFrontmatterEntry
+	public setValue(value: string|string[]): AbstractFrontmatterEntry
 	{
 		this.value = value;
 		return this;
