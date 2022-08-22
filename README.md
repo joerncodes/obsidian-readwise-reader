@@ -53,6 +53,7 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
 - `image-url` and `banner`: Both fields get parsed as an image to send to use as the cover image for your Reader document. If both are present, `image-url` supercedes `banner`.[^1]
 - `reader-url`: Gets filled automatically upon publishing if the `Save Reader URL in frontmatter` setting is active
 - `summary`: Gets submmited as the Reader document's summary (the text you see in the list page).
+- `source`: Gets submitted as the Reader document's source URL (instead of the usual Obsidian Callback URL).
 
 ## Changelog
 

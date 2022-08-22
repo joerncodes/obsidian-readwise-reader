@@ -3,7 +3,7 @@ import {
 	MarkdownRenderer,
 	MarkdownView,
 	Notice,
-	Plugin,
+	Plugin, request,
 	RequestUrlParam,
 	TFile
 } from 'obsidian';
@@ -12,7 +12,7 @@ import {
 	DEFAULT_SETTINGS,
 	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
-	OBSIDIAN_TO_READER_REWRITE_URL, PLUGIN_NAME,
+	OBSIDIAN_TO_READER_REWRITE_URL, OBSIDIAN_TO_READER_URL, PLUGIN_NAME,
 	READER_API_URL,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
@@ -21,6 +21,9 @@ import PayloadExpander from "./src/payloadexpander/payloadexpander";
 import ObsidianToReaderSettingsInterface from "./src/settings/obsidiantoreadersettingsinterface";
 import ObsidianToReaderSettingsTab from "./src/settings/obsidiantoreadersettingstab";
 import TagCollector from "./src/tagcollector";
+import URLPayloadExpander from "./src/payloadexpander/urlpayloadexpander";
+import ObsidianURLStrategy from "./src/urlstrategy/obsidianurlstrategy";
+import ObsidianURLPartsInterface from "./src/urlstrategy/obsidianurlpartsinterface";
 
 // Remember to rename these classes and interfaces!
 
@@ -89,20 +92,26 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		if(this.settings.omitFrontmatter) {
 			markdown = (new FrontmatterParser(markdown)).stripFrontmatter();
 		}
+		console.log(file as ObsidianURLPartsInterface);
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
 		const tags = (new TagCollector(originalMarkdown, metadata, this.settings)).gatherTags();
 
+		const payloadExpander = new PayloadExpander();
+		const urlExpander = payloadExpander.getExpanderByClassname('URLPayloadExpander') as URLPayloadExpander;
+		urlExpander.setUrlStrategy(new ObsidianURLStrategy(file as ObsidianURLPartsInterface));
+
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
 			html: wrapper.outerHTML,
-			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
+			url: OBSIDIAN_TO_READER_URL,
 			tags: tags
 		};
 
-		const payloadExpander = new PayloadExpander();
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
+
+		console.log(payload);
 
 		const auth = 'Token ' + this.settings.accessToken;
 
