@@ -19,11 +19,19 @@ export const FRONTMATTER_KEYS = {
 	tags: 'tags',
 };
 
+export const TRIAGE_STATUS = {
+	statusNew: 'new',
+	statusLater: 'later',
+	statusArchive: 'archive',
+	statusFeed: 'feed'
+};
+
 export const DEFAULT_SETTINGS: ObsidianToReaderSettingsInterface = {
 	accessToken: '',
 	generalTags: [],
 	frontmatter: false,
 	omitFrontmatter: true,
 	noteTags: false,
+	triageStatus: TRIAGE_STATUS.statusNew,
 }
 

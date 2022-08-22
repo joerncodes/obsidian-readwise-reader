@@ -41,6 +41,8 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
     <dd>If this is checked, only the note's body will be sent to Reader, without the frontmatter. Defaults to <code>true</code>.</dd>
     <dt>Submit note tags</dt>
     <dd>If this is checked, your Obsidian note's tags (the ones written like <code>#tag</code> plus the ones from the frontmatter) get appended as Reader document tags. See also the <em>General tags</em> setting.</dd>
+    <dt>Triage status</dt>
+    <dd>Which triage status to submit to Reader. This will tell Reader which "tab" oft he app to show your document in.</dd>
 </dl>
 
 ## Frontmatter parsing
