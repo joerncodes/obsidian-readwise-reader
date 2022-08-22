@@ -1,6 +1,7 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
 import ObsidianToReadwiseReader from "../../main";
 import ObsidianToReaderSettingsInterface from "./obsidiantoreadersettingsinterface";
+import {TRIAGE_STATUS} from "../constants";
 
 export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 	plugin: ObsidianToReadwiseReader;
@@ -114,5 +115,23 @@ export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				})
 			});
+
+		new Setting(containerEl)
+			.setName('Triage status')
+			.setDesc('Choose what triage status to submit to Reader (this concerns the tab your document shows up in).')
+			.addDropdown((d) => {
+				d.addOption(TRIAGE_STATUS.statusNew, "New (Inbox)");
+				d.addOption(TRIAGE_STATUS.statusLater, "Later");
+				d.addOption(TRIAGE_STATUS.statusArchive, "Archive");
+				d.addOption(TRIAGE_STATUS.statusFeed, "Feed");
+				d.setValue(this.plugin.settings.triageStatus);
+				d.onChange(async (v: 'new' | 'later' | 'archive' | 'feed') => {
+						this.plugin.settings.triageStatus = v;
+						this.display();
+						await this.plugin.saveSettings();
+					}
+				);
+			});
+
 	}
 }
