@@ -2,7 +2,7 @@ import URLPayloadExpander from "../../src/payloadexpander/urlpayloadexpander";
 import ReaderPayload from "../../src/readerpayload";
 import ObsidianToReaderSettingsInterface from "../../src/settings/obsidiantoreadersettingsinterface";
 import {DEFAULT_SETTINGS, OBSIDIAN_TO_READER_URL} from "../../src/constants";
-import {FileStats, TFile, TFolder, Vault} from "obsidian";
+import {Vault} from "obsidian";
 import ObsidianURLStrategy from "../../src/urlstrategy/obsidianurlstrategy";
 import ObsidianURLPartsInterface from "../../src/urlstrategy/obsidianurlpartsinterface";
 
@@ -14,7 +14,7 @@ let payload:ReaderPayload = {
 	url: 'https://obsidiantoreader.com'
 };
 
-let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
+const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('Without frontmatter, the Obsidian to Reader url gets submitted.', () => {
 	payload = expander.expandPayload(settings, payload, '# A Test');

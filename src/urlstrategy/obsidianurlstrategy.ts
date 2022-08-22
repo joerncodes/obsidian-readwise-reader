@@ -12,8 +12,9 @@ export default class ObsidianURLStrategy implements URLStrategyInterface {
 	getUrl(): string {
 		const vault = encodeURIComponent(this.urlPartsInterface.vault.getName());
 		const basename = encodeURIComponent(this.urlPartsInterface.basename);
+
 		const url = OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent('obsidian://open?vault=' + vault + '&file=' + basename);
-		console.log(url);
+
 		return url;
 	}
 

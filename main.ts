@@ -12,7 +12,7 @@ import {
 	DEFAULT_SETTINGS,
 	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
-	OBSIDIAN_TO_READER_REWRITE_URL, OBSIDIAN_TO_READER_URL, PLUGIN_NAME,
+	OBSIDIAN_TO_READER_URL, PLUGIN_NAME,
 	READER_API_URL,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
@@ -92,7 +92,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		if(this.settings.omitFrontmatter) {
 			markdown = (new FrontmatterParser(markdown)).stripFrontmatter();
 		}
-		console.log(file as ObsidianURLPartsInterface);
 
 		await MarkdownRenderer.renderMarkdown(markdown, wrapper, file?.path || '', this);
 
@@ -110,8 +109,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		};
 
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
-
-		console.log(payload);
 
 		const auth = 'Token ' + this.settings.accessToken;
 
