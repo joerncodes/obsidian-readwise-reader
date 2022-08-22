@@ -9,7 +9,7 @@ let payload:ReaderPayload = {
 	html: '<h1>A test</h1>',
 	url: 'https://obsidiantoreader.com'
 };
-let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
+const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('If no author is present in either frontmatter or settings, no author gets set.', () => {
 	const markdown = `---

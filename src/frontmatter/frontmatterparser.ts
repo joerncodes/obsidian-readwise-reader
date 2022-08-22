@@ -1,15 +1,17 @@
-import { FrontmatterEntry } from './frontmatterentry';
+import {AbstractFrontmatterEntry} from "./abstractfrontmatterentry";
+import StringArrayFrontmatterEntry from "./stringarrayfrontmatterentry";
+import StringFrontmatterEntry from "./stringfrontmatterentry";
 
 export default class FrontmatterParser
 {
 	private content: string;
-	private frontmatter: FrontmatterEntry[];
+	private frontmatter: AbstractFrontmatterEntry[];
 
 	constructor(content: string) {
 		this.content = content;
-		let startInd = content.indexOf('---') + 4;
-		let endInd = content.substring(startInd).indexOf('---') - 1;
-		let rawFrontmatter = content.substring(startInd, startInd + endInd);
+		const startInd = content.indexOf('---') + 4;
+		const endInd = content.substring(startInd).indexOf('---') - 1;
+		const rawFrontmatter = content.substring(startInd, startInd + endInd);
 		this.frontmatter = [];
 
 		if(content.indexOf('---') === -1) {
@@ -17,15 +19,19 @@ export default class FrontmatterParser
 		}
 
 		rawFrontmatter.split("\n").forEach(line => {
-			let parts = line.split(':').map(v => v.trim());
+			const parts = line.split(':').map(v => v.trim());
 			const key = parts[0].toString();
 			const value = parts.slice(1).join(':');
 			this.frontmatter.push(this.createEntry(key, value));
 		});
 	}
 
-	createEntry(key:string, value:string): FrontmatterEntry {
-		return new FrontmatterEntry(key, this.parseValue(value));
+	createEntry(key:string, value:string): AbstractFrontmatterEntry {
+		const parsedValue = this.parseValue(value);
+
+		return Array.isArray(parsedValue)
+			? new StringArrayFrontmatterEntry(key, parsedValue)
+			: new StringFrontmatterEntry(key, parsedValue);
 	}
 
 	private parseValue(value: any): any {
@@ -70,13 +76,17 @@ export default class FrontmatterParser
 		return found;
 	}
 
-	getFrontmatter(key: string): FrontmatterEntry | null {
+	getFrontmatter(key: string): AbstractFrontmatterEntry {
 		let result = null;
-		this.frontmatter.forEach(fm => {
+		this.frontmatter.forEach((fm) => {
 			if(fm.getKey() == key) {
 				result = fm;
 			}
 		});
+
+		if(result === null) {
+			throw new Error('No frontmatter key found for key ' + key);
+		}
 
 		return result;
 	}
