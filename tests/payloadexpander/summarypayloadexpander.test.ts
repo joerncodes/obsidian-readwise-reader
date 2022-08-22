@@ -10,7 +10,7 @@ let payload:ReaderPayload = {
 	url: 'https://obsidiantoreader.com'
 };
 
-let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
+const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('If no frontmatter tag is present, no summary gets written into the payload', () => {
 	const markdown = `---

@@ -3,8 +3,8 @@ import TagCollector from "../src/tagcollector";
 import ObsidianToReaderSettingsInterface from "../src/settings/obsidiantoreadersettingsinterface";
 import {DEFAULT_SETTINGS} from "../src/constants";
 
-let settings:ObsidianToReaderSettingsInterface= {...DEFAULT_SETTINGS};
-let cachedMetadata:CachedMetadata = {
+const settings:ObsidianToReaderSettingsInterface= {...DEFAULT_SETTINGS};
+const cachedMetadata:CachedMetadata = {
 
 }
 
@@ -16,7 +16,7 @@ test('No tags at all', () => {
 });
 
 test('General tags get parsed', () => {
-	let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, generalTags : ['obsidian']};
+	const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, generalTags : ['obsidian']};
 	const markdown = '# A Test';
 	const collector = new TagCollector(markdown, cachedMetadata, settings);
 	const tags = collector.gatherTags();
@@ -25,7 +25,7 @@ test('General tags get parsed', () => {
 });
 
 test('Frontmatter tags get parsed', () => {
-	let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true};
+	const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true};
 	const markdown = `---
 title: A Title
 tags: [one, two, three]
@@ -40,7 +40,7 @@ tags: [one, two, three]
 });
 
 test('Inline note tags get parsed', () => {
-	let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true};
+	const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true};
 	const markdown = '# Markdown title';
 
 	const tagCaches:TagCache[] = [
@@ -49,7 +49,7 @@ test('Inline note tags get parsed', () => {
 		{tag:'three/four' } as TagCache,
 	];
 
-	let cachedMetadata:CachedMetadata = {
+	const cachedMetadata:CachedMetadata = {
 		tags: tagCaches
 	};
 
@@ -61,7 +61,7 @@ test('Inline note tags get parsed', () => {
 });
 
 test('Test all tag collection together', () => {
-	let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true, generalTags: ['one', 'two']};
+	const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true, generalTags: ['one', 'two']};
 	const markdown = `---
 title: A Title
 tags: [three]
@@ -72,7 +72,7 @@ tags: [three]
 		{tag:'five/six' } as TagCache,
 	];
 
-	let cachedMetadata:CachedMetadata = {
+	const cachedMetadata:CachedMetadata = {
 		tags: tagCaches
 	};
 

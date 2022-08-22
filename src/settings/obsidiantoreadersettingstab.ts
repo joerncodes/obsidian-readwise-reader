@@ -1,6 +1,5 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
 import ObsidianToReadwiseReader from "../../main";
-import ObsidianToReaderSettingsInterface from "./obsidiantoreadersettingsinterface";
 import {TRIAGE_STATUS} from "../constants";
 
 export default class ObsidianToReaderSettingsTab extends PluginSettingTab {

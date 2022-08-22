@@ -1,15 +1,17 @@
-import { FrontmatterEntry } from './frontmatterentry';
+import {AbstractFrontmatterEntry} from "./abstractfrontmatterentry";
+import StringArrayFrontmatterEntry from "./stringarrayfrontmatterentry";
+import StringFrontmatterEntry from "./stringfrontmatterentry";
 
 export default class FrontmatterParser
 {
 	private content: string;
-	private frontmatter: FrontmatterEntry[];
+	private frontmatter: AbstractFrontmatterEntry[];
 
 	constructor(content: string) {
 		this.content = content;
-		let startInd = content.indexOf('---') + 4;
-		let endInd = content.substring(startInd).indexOf('---') - 1;
-		let rawFrontmatter = content.substring(startInd, startInd + endInd);
+		const startInd = content.indexOf('---') + 4;
+		const endInd = content.substring(startInd).indexOf('---') - 1;
+		const rawFrontmatter = content.substring(startInd, startInd + endInd);
 		this.frontmatter = [];
 
 		if(content.indexOf('---') === -1) {
@@ -17,23 +19,27 @@ export default class FrontmatterParser
 		}
 
 		rawFrontmatter.split("\n").forEach(line => {
-			let parts = line.split(':').map(v => v.trim());
+			const parts = line.split(':').map(v => v.trim());
 			const key = parts[0].toString();
 			const value = parts.slice(1).join(':');
 			this.frontmatter.push(this.createEntry(key, value));
 		});
 	}
 
-	createEntry(key:string, value:string): FrontmatterEntry {
-		return new FrontmatterEntry(key, this.parseValue(value));
+	createEntry(key:string, value:string): AbstractFrontmatterEntry {
+		const parsedValue = this.parseValue(value);
+
+		return Array.isArray(parsedValue)
+			? new StringArrayFrontmatterEntry(key, parsedValue)
+			: new StringFrontmatterEntry(key, parsedValue);
 	}
 
-	private parseValue(value: any): any {
+	private parseValue(value: string|string[]): string|string[] {
 		if(Array.isArray(value)) {
 			return value;
 		}
 
-		let parsedValue:any = value;
+		let parsedValue:string|string[] = value;
 
 		if(value.trim().startsWith('[') && value.trim().endsWith(']')) {
 			value = value.slice(1,-1);
@@ -70,18 +76,22 @@ export default class FrontmatterParser
 		return found;
 	}
 
-	getFrontmatter(key: string): FrontmatterEntry | null {
+	getFrontmatter(key: string): AbstractFrontmatterEntry {
 		let result = null;
-		this.frontmatter.forEach(fm => {
+		this.frontmatter.forEach((fm) => {
 			if(fm.getKey() == key) {
 				result = fm;
 			}
 		});
 
+		if(result === null) {
+			throw new Error('No frontmatter key found for key ' + key);
+		}
+
 		return result;
 	}
 
-	setFrontmatter(key: string, value: any): FrontmatterParser {
+	setFrontmatter(key: string, value: string|string[]): FrontmatterParser {
 		let found = false;
 		this.frontmatter.forEach(fm => {
 			if(fm.getKey() == key) {
@@ -91,7 +101,7 @@ export default class FrontmatterParser
 		});
 
 		if (!found) {
-			this.frontmatter.push(this.createEntry(key, value));
+			this.frontmatter.push(this.createEntry(key, value as string));
 		}
 
 		return this;
@@ -101,9 +111,11 @@ export default class FrontmatterParser
 	{
 		let result = '---\n';
 		this.frontmatter.forEach(fm => {
-			result += Array.isArray(fm.getValue())
-				? fm.getKey() + ': [' + fm.getValue().join(', ') + ']\n'
-				: fm.getKey() + ': ' + fm.getValue() + '\n';
+			if(fm instanceof StringArrayFrontmatterEntry) {
+				result += fm.getKey() + ': [' + fm.getValue().join(', ') + ']\n';
+			} else {
+				result += fm.getKey() + ': ' + fm.getValue() + '\n';
+			}
 		});
 
 		// no frontmatter yet

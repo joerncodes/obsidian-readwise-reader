@@ -11,7 +11,7 @@ let payload:ReaderPayload = {
 	html: '<h1>A test</h1>',
 	url: 'https://obsidiantoreader.com'
 };
-let settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
+const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
 test('Standard triage_status is "new"', () => {
 	payload = expander.expandPayload(settings, payload, markdown);
