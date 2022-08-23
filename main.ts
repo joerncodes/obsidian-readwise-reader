@@ -10,7 +10,7 @@ import {
 import ReaderPayload from "./src/readerpayload";
 import {
 	DEFAULT_SETTINGS,
-	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
+	FRONT_MATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
 	OBSIDIAN_TO_READER_URL, PLUGIN_NAME,
 	READER_API_URL,
@@ -70,11 +70,11 @@ export default class ObsidianToReadwiseReader extends Plugin {
 				const parser = new FrontmatterParser(markdown);
 
 				if(!checking) {
-					const url = parser.getFrontmatter(FRONTMATTER_KEYS.readerUrl)?.getValue();
+					const url = parser.getFrontmatter(FRONT_MATTER_KEYS.readerUrl)?.getValue();
 					window.open(url, '_null');
 				}
 
-				return parser.hasFrontmatter(FRONTMATTER_KEYS.readerUrl);
+				return parser.hasFrontmatter(FRONT_MATTER_KEYS.readerUrl);
 			}
 		});
 
@@ -148,7 +148,7 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		}
 
 		const parser = new FrontmatterParser(markdown);
-		parser.setFrontmatter(FRONTMATTER_KEYS.readerUrl, url);
+		parser.setFrontmatter(FRONT_MATTER_KEYS.readerUrl, url);
 		const result = parser.saveFrontmatter();
 
 		this.app.vault.modify(file, result);

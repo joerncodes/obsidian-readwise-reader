@@ -12,7 +12,7 @@ let payload:ReaderPayload = {
 
 const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
-test('If no frontmatter tag is present, no summary gets written into the payload', () => {
+test('If no front matter tag is present, no summary gets written into the payload', () => {
 	const markdown = `---
 no-summary: at all
 ---
@@ -22,7 +22,7 @@ A Test
 	expect(payload.summary).toBeUndefined();
 });
 
-test('If a summary frontmatter tags is present, it gets written into the payload.', () => {
+test('If a summary front matter tags is present, it gets written into the payload.', () => {
 	const markdown = `---
 summary: This is a short summary for my jest test.
 ---

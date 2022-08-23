@@ -16,12 +16,12 @@ let payload:ReaderPayload = {
 
 const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
-test('Without frontmatter, the Obsidian to Reader url gets submitted.', () => {
+test('Without front matter, the Obsidian to Reader url gets submitted.', () => {
 	payload = expander.expandPayload(settings, payload, '# A Test');
 	expect(payload.url).toEqual(OBSIDIAN_TO_READER_URL);
 });
 
-test('The source frontmatter overwrites the url.', () => {
+test('The source front matter overwrites the url.', () => {
 	const markdown = `---
 source: https://read.readwise.io
 ---

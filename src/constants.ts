@@ -11,7 +11,7 @@ export const NOTICE_SAVED_SUCCEFULLY = {
 	linkText: '➡️ Open in Reader'
 };
 export const NOTICE_TEXT_NO_ACCESS_TOKEN = 'No access token was found. Please set your access token in the settings.';
-export const FRONTMATTER_KEYS = {
+export const FRONT_MATTER_KEYS = {
 	readerUrl: 'reader-url',
 	author: 'author',
 	banner: 'banner',
