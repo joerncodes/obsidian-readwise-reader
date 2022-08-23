@@ -1,6 +1,6 @@
 import {App, PluginSettingTab, Setting} from "obsidian";
 import ObsidianToReadwiseReader from "../../main";
-import ObsidianToReaderSettingsInterface from "./obsidiantoreadersettingsinterface";
+import {TRIAGE_STATUS} from "../constants";
 
 export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 	plugin: ObsidianToReadwiseReader;
@@ -72,8 +72,8 @@ export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Save Reader URL in frontmatter')
-			.setDesc('After saving the note to Reader, save the link to the document to the note\'s frontmatter.')
+			.setName('Save Reader URL in front matter')
+			.setDesc('After saving the note to Reader, save the link to the document to the note\'s front matter.')
 			.addToggle((t) => {
 				t.setValue(this.plugin.settings.frontmatter);
 				t.onChange(async (v) => {
@@ -84,7 +84,7 @@ export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 
 		new Setting(containerEl)
 			.setName('Fallback author')
-			.setDesc('If no author frontmatter could be found, use this value instead.')
+			.setDesc('If no author front matter could be found, use this value instead.')
 			.addText(text => text
 				.setPlaceholder('Your name')
 				.setValue(this.plugin.settings.fallbackAuthor || '')
@@ -94,8 +94,8 @@ export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 				}));
 
 		new Setting(containerEl)
-			.setName('Omit frontmatter')
-			.setDesc('If this is checked, your Obsidian note\'s frontmatter gets ommited when submitting to Reader. Special keys like author will still get parsed.')
+			.setName('Omit front matter')
+			.setDesc('If this is checked, your Obsidian note\'s front matter gets ommited when submitting to Reader. Special keys like author will still get parsed.')
 			.addToggle((t) => {
 				t.setValue(this.plugin.settings.omitFrontmatter);
 				t.onChange(async(v) => {
@@ -114,5 +114,23 @@ export default class ObsidianToReaderSettingsTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				})
 			});
+
+		new Setting(containerEl)
+			.setName('Triage status')
+			.setDesc('Choose what triage status to submit to Reader (this concerns the tab your document shows up in).')
+			.addDropdown((d) => {
+				d.addOption(TRIAGE_STATUS.statusNew, "New (Inbox)");
+				d.addOption(TRIAGE_STATUS.statusLater, "Later");
+				d.addOption(TRIAGE_STATUS.statusArchive, "Archive");
+				d.addOption(TRIAGE_STATUS.statusFeed, "Feed");
+				d.setValue(this.plugin.settings.triageStatus);
+				d.onChange(async (v: 'new' | 'later' | 'archive' | 'feed') => {
+						this.plugin.settings.triageStatus = v;
+						this.display();
+						await this.plugin.saveSettings();
+					}
+				);
+			});
+
 	}
 }

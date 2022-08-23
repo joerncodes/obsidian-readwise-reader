@@ -24,7 +24,7 @@ The *Send to Reader* command sends the rendered HTML of the current Obsidian not
 
 ### *Open document URL in Reader*
 
-If the `Save Reader URL in frontmatter` is set, this plugin will write the Reader document URL into your Obsidian note's [YAML frontmatter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) upon publishing. Use this command to open a new browser window with your Reader document.
+If the `Save Reader URL in front matter` is set, this plugin will write the Reader document URL into your Obsidian note's [YAML front matter](https://help.obsidian.md/Advanced+topics/YAML+front+matter) upon publishing. Use this command to open a new browser window with your Reader document.
 
 ## Settings
 
@@ -33,24 +33,27 @@ If the `Save Reader URL in frontmatter` is set, this plugin will write the Reade
     <dd>Your access token for Readwise. You can find yours at <a href="https://readwise.io/access_token">https://readwise.io/access_token</a>.</dd>
     <dt>General tags</dt>
     <dd>Provide a comma separated list of tags, which will be automatically assigned to all Reader documents created with this plugin.</dd>
-    <dt>Save Reader URL in frontmatter</dt>
-    <dd>If checked, the plugin will write the Reader url for your published document into your Obsidian note's frontmatter.</dd>
+    <dt>Save Reader URL in front matter</dt>
+    <dd>If checked, the plugin will write the Reader url for your published document into your Obsidian note's front matter.</dd>
     <dt>Fallback author</dt>
-    <dd>Provide a string that gets used for the <code>author</code> field in Reader if no author frontmatter is present in your note.</dd>
-    <dt>Omit frontmatter</dt>
-    <dd>If this is checked, only the note's body will be sent to Reader, without the frontmatter. Defaults to <code>true</code>.</dd>
+    <dd>Provide a string that gets used for the <code>author</code> field in Reader if no author front matter is present in your note.</dd>
+    <dt>Omit front matter</dt>
+    <dd>If this is checked, only the note's body will be sent to Reader, without the front matter. Defaults to <code>true</code>.</dd>
     <dt>Submit note tags</dt>
-    <dd>If this is checked, your Obsidian note's tags (the ones written like <code>#tag</code> plus the ones from the frontmatter) get appended as Reader document tags. See also the <em>General tags</em> setting.</dd>
+    <dd>If this is checked, your Obsidian note's tags (the ones written like <code>#tag</code> plus the ones from the front matter) get appended as Reader document tags. See also the <em>General tags</em> setting.</dd>
+    <dt>Triage status</dt>
+    <dd>Which triage status to submit to Reader. This will tell Reader which "tab" oft he app to show your document in.</dd>
 </dl>
 
-## Frontmatter parsing
+## Front matter parsing
 
-`Obsidian to Reader` recognizes the following frontmatter keys:
+`Obsidian to Reader` recognizes the following front matter keys:
 
 - `author`: Gets used as the author field in your Reader note
 - `image-url` and `banner`: Both fields get parsed as an image to send to use as the cover image for your Reader document. If both are present, `image-url` supercedes `banner`.[^1]
-- `reader-url`: Gets filled automatically upon publishing if the `Save Reader URL in frontmatter` setting is active
+- `reader-url`: Gets filled automatically upon publishing if the `Save Reader URL in front matter` setting is active
 - `summary`: Gets submmited as the Reader document's summary (the text you see in the list page).
+- `source`: Gets submitted as the Reader document's source URL (instead of the usual Obsidian Callback URL).
 
 ## Changelog
 

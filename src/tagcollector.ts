@@ -1,6 +1,6 @@
 import {CachedMetadata, TagCache} from "obsidian";
 import FrontmatterParser from "./frontmatter/frontmatterparser";
-import {FRONTMATTER_KEYS} from "./constants";
+import {FRONT_MATTER_KEYS} from "./constants";
 import ObsidianToReaderSettingsInterface from "./settings/obsidiantoreadersettingsinterface";
 
 export default class TagCollector
@@ -21,8 +21,8 @@ export default class TagCollector
 
 		if(this.settings.noteTags) {
 			const parser = new FrontmatterParser(this.markdown);
-			if (parser.hasFrontmatter(FRONTMATTER_KEYS.tags)) {
-				tags = tags.concat(parser.getFrontmatter(FRONTMATTER_KEYS.tags)?.getValue() || []);
+			if (parser.hasFrontmatter(FRONT_MATTER_KEYS.tags)) {
+				tags = tags.concat(parser.getFrontmatter(FRONT_MATTER_KEYS.tags)?.getValue() || []);
 			}
 
 			// Omit the #

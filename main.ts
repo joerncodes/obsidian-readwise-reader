@@ -1,30 +1,29 @@
 import {
-	App, CachedMetadata,
-	Editor, FileView,
+	FileView,
 	MarkdownRenderer,
 	MarkdownView,
-	Modal,
 	Notice,
-	Plugin,
-	PluginSettingTab, request,
-	requestUrl, RequestUrlParam,
-	Setting, TFile
+	Plugin, request,
+	RequestUrlParam,
+	TFile
 } from 'obsidian';
 import ReaderPayload from "./src/readerpayload";
 import {
 	DEFAULT_SETTINGS,
-	FRONTMATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
+	FRONT_MATTER_KEYS, NOTICE_SAVED_SUCCEFULLY,
 	NOTICE_TEXT_NO_ACCESS_TOKEN,
-	OBSIDIAN_TO_READER_REWRITE_URL, PLUGIN_NAME,
+	OBSIDIAN_TO_READER_URL, PLUGIN_NAME,
 	READER_API_URL,
 	TEXT_TITLE_NOT_FOUND
 } from "./src/constants";
 import FrontmatterParser from "./src/frontmatter/frontmatterparser";
-import {EditorView} from "@codemirror/view";
 import PayloadExpander from "./src/payloadexpander/payloadexpander";
 import ObsidianToReaderSettingsInterface from "./src/settings/obsidiantoreadersettingsinterface";
 import ObsidianToReaderSettingsTab from "./src/settings/obsidiantoreadersettingstab";
 import TagCollector from "./src/tagcollector";
+import URLPayloadExpander from "./src/payloadexpander/urlpayloadexpander";
+import ObsidianURLStrategy from "./src/urlstrategy/obsidianurlstrategy";
+import ObsidianURLPartsInterface from "./src/urlstrategy/obsidianurlpartsinterface";
 
 // Remember to rename these classes and interfaces!
 
@@ -71,11 +70,11 @@ export default class ObsidianToReadwiseReader extends Plugin {
 				const parser = new FrontmatterParser(markdown);
 
 				if(!checking) {
-					const url = parser.getFrontmatter(FRONTMATTER_KEYS.readerUrl)?.getValue();
+					const url = parser.getFrontmatter(FRONT_MATTER_KEYS.readerUrl)?.getValue();
 					window.open(url, '_null');
 				}
 
-				return parser.hasFrontmatter(FRONTMATTER_KEYS.readerUrl);
+				return parser.hasFrontmatter(FRONT_MATTER_KEYS.readerUrl);
 			}
 		});
 
@@ -98,14 +97,17 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 		const tags = (new TagCollector(originalMarkdown, metadata, this.settings)).gatherTags();
 
+		const payloadExpander = new PayloadExpander();
+		const urlExpander = payloadExpander.getExpanderByClassname('URLPayloadExpander') as URLPayloadExpander;
+		urlExpander.setUrlStrategy(new ObsidianURLStrategy(file as ObsidianURLPartsInterface));
+
 		let payload:ReaderPayload = {
 			title: file?.basename ?? TEXT_TITLE_NOT_FOUND,
 			html: wrapper.outerHTML,
-			url: OBSIDIAN_TO_READER_REWRITE_URL + encodeURIComponent(app.getObsidianUrl(file)),
+			url: OBSIDIAN_TO_READER_URL,
 			tags: tags
 		};
 
-		const payloadExpander = new PayloadExpander();
 		payload = payloadExpander.expandPayload(this.settings, payload, originalMarkdown);
 
 		const auth = 'Token ' + this.settings.accessToken;
@@ -140,17 +142,13 @@ export default class ObsidianToReadwiseReader extends Plugin {
 		this.saveFrontmatter(file, originalMarkdown, jsonResponse.url);
 	}
 
-	onunload() {
-
-	}
-
 	saveFrontmatter(file:TFile, markdown:string, url:string) {
 		if(!this.settings.frontmatter) {
 			return;
 		}
 
 		const parser = new FrontmatterParser(markdown);
-		parser.setFrontmatter(FRONTMATTER_KEYS.readerUrl, url);
+		parser.setFrontmatter(FRONT_MATTER_KEYS.readerUrl, url);
 		const result = parser.saveFrontmatter();
 
 		this.app.vault.modify(file, result);
@@ -162,22 +160,6 @@ export default class ObsidianToReadwiseReader extends Plugin {
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		const {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
 	}
 }
 
