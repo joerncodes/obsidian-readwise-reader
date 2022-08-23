@@ -11,7 +11,7 @@ let payload:ReaderPayload = {
 };
 const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS};
 
-test('If no author is present in either frontmatter or settings, no author gets set.', () => {
+test('If no author is present in either front matter or settings, no author gets set.', () => {
 	const markdown = `---
 no-author: at all
 ---
@@ -34,7 +34,7 @@ no-author: at all
 	expect(payload.author).toEqual('Terry Pratchett');
 });
 
-test('Frontmatter author overwrites settings author.', () => {
+test('Front matter author overwrites settings author.', () => {
 	const markdown = `---
 author: Douglas Adams
 ---

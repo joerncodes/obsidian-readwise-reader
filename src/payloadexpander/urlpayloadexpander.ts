@@ -3,7 +3,7 @@ import ReaderPayload from "../readerpayload";
 import ObsidianToReaderSettingsInterface from "../settings/obsidiantoreadersettingsinterface";
 import URLStrategyInterface from "../urlstrategy/urlstrategyinterface";
 import BasicUrlStrategy from "../urlstrategy/basicurlstrategy";
-import {FRONTMATTER_KEYS, OBSIDIAN_TO_READER_URL} from "../constants";
+import {FRONT_MATTER_KEYS, OBSIDIAN_TO_READER_URL} from "../constants";
 import FrontmatterParser from "../frontmatter/frontmatterparser";
 import StringFrontmatterEntry from "../frontmatter/stringfrontmatterentry";
 
@@ -19,8 +19,8 @@ export default class URLPayloadExpander implements PayloadExpanderInterface {
 
 		const parser = new FrontmatterParser(markdown);
 
-		if(parser.hasFrontmatter(FRONTMATTER_KEYS.source)) {
-			const fm = parser.getFrontmatter(FRONTMATTER_KEYS.source) as StringFrontmatterEntry;
+		if(parser.hasFrontmatter(FRONT_MATTER_KEYS.source)) {
+			const fm = parser.getFrontmatter(FRONT_MATTER_KEYS.source) as StringFrontmatterEntry;
 			payload.url = fm.getValue();
 		}
 

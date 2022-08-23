@@ -24,7 +24,7 @@ test('General tags get parsed', () => {
 	expect(tags[0]).toEqual('obsidian');
 });
 
-test('Frontmatter tags get parsed', () => {
+test('Front matter tags get parsed', () => {
 	const settings:ObsidianToReaderSettingsInterface = {...DEFAULT_SETTINGS, noteTags : true};
 	const markdown = `---
 title: A Title

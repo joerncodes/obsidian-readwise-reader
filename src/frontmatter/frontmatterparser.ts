@@ -85,7 +85,7 @@ export default class FrontmatterParser
 		});
 
 		if(result === null) {
-			throw new Error('No frontmatter key found for key ' + key);
+			throw new Error('No front matter key found for key ' + key);
 		}
 
 		return result;
@@ -118,7 +118,7 @@ export default class FrontmatterParser
 			}
 		});
 
-		// no frontmatter yet
+		// no front matter yet
 		if(this.content.indexOf('---') === -1) {
 			return result + '---\n\n' + this.content;
 		}

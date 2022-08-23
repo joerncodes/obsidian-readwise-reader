@@ -1,6 +1,6 @@
 import FrontmatterParser from "../../src/frontmatter/frontmatterparser";
 
-test('Frontmatter parses frontmatter keys correctly', () => {
+test('Front matter parses front matter keys correctly', () => {
 	const markdown = `---
 title: A Title
 summary: A short text
@@ -12,7 +12,7 @@ summary: A short text
 	expect(parser.getFrontmatter('summary')?.getValue()).toEqual('A short text');
 });
 
-test('URLs can be set as frontmatter values', () => {
+test('URLs can be set as front matter values', () => {
 	const markdown = `---
 url: https://obsidiantoreader.com
 ---
@@ -22,7 +22,7 @@ url: https://obsidiantoreader.com
 	expect(parser.getFrontmatter('url')?.getValue()).toEqual('https://obsidiantoreader.com');
 });
 
-test('Parser can strip frontmatter from markdown content', () => {
+test('Parser can strip front matter from markdown content', () => {
 	const markdown = `---
 title: A Title
 summary: A short text
@@ -35,7 +35,7 @@ summary: A short text
 	expect(parser.stripFrontmatter()).toEqual('# More Markdown');
 });
 
-test('Parser can set frontmatter keys', () => {
+test('Parser can set front matter keys', () => {
 	const markdown = `---
 title: A Title
 ---
@@ -78,7 +78,7 @@ tags: [ ]
 	expect(actual.length).toEqual(0);
 });
 
-test('Parser sets frontmatter arrays', () => {
+test('Parser sets front matter arrays', () => {
 	const markdown = `---
 title: A Title
 ---
