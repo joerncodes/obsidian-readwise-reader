@@ -1,6 +1,7 @@
 # Obsidian to Reader
 
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/joerncodes/obsidian-readwise-reader?style=for-the-badge&sort=semver)](https://github.com/joerncodes/obsidian-readwise-reader/releases/latest)
+![GitHub Downloads](https://img.shields.io/github/downloads/joerncodes/obsidian-readwise-reader/total?style=for-the-badge)
 
 ----
 
